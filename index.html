@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Decision Auction</title>
+<meta name="description" 
+      content="How the Soule-Reeveses make decisions with unequal stakeholders">
+<link rel="canonical" href="https://bid.yootl.es"/>
+<link id="favicon" 
+      rel="icon" 
+      href="https://cdn.glitch.me/dc6034b7-bc1c-4140-b125-78063618b9f0%2Fpiechart.ico?v=1635034514785" 
+      type="image/x-icon">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">  
+<link rel="stylesheet" href="/style.css">
+<script crossorigin 
+src="https://unpkg.com/react@17/umd/react.production.min.js"></script>
+<script crossorigin 
+src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js"></script>
+<script crossorigin 
+src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+<!-- https://unpkg.com/@babel/standalone/babel.min.js -->
+</head>  
+<body>
+
+
+<h1>Decision Auction</h1>
+
+<div id="root">Loading...</div>
+
+<script type="text/babel" data-presets="react, es2015, stage-2" 
+        src="main.jsx"></script>
+
+<br>&nbsp;<br>
+<br>&nbsp;<br>
+
+<details>
+<summary style="cursor: pointer"><i>what the flargity fork?</i></summary>
+
+<h3>Motivating Case Study</h3>
+
+<p>
+One day Danny and Bee had an auction for if Bee would work on molecall.com with Danny. 
+She ceded 35% of the decision (she'd "35% do it") and bid $180 to Danny's $160. 
+(Bee bidding to not do it, Danny bidding to do it.) 
+So that meant she won and paid $160*.35 = $56 to Danny. 
+All great except Danny realized what he <i>meant</i> to do was 
+multiply his bid by 1/.65 so that up to 160 is what he'd actually pay 
+(and thus $86 is what he'd get paid if he lost).
+</p>
+
+<p>
+We decided that for these non-50/50 auctions we needed to make it easy to state your bid in terms of 
+{most you'll pay, what you'll get paid}.
+One implies the other but you want to see both.
+Only in the case of a 50/50 auction are those amounts the same.
+</p>
+
+<p>
+So in this case Bee'd've bid 
+"pay up to $63 to not have to do it, require $117 to do it". 
+</p>
+
+<p>
+That works because she was ceding 35% of the decision and with her bid of 180 she'd 
+either win and buy out Danny's 35% for his $179.99 (at most) times .35 = $63 
+or she'd lose and Danny'd buy her 65% for $180 times .65 = $117.
+</p>
+
+<h3>General Formula and Auction Mechanism</h3>
+
+<p>
+In general, for an auction where you have 
+r
+of the decision 
+(r=65% for Bee in this case), 
+if you want to think in terms of paying at most 
+$PAY 
+then your bid is 
+{$PAY, $PAY*r/(1-r)}. 
+Or if you want to think in terms of getting paid 
+$GET
+then your bid is 
+{$GET*(1-r)/r, $GET}.
+</p>
+
+<p>
+You convert a 
+{$PAY, $GET}
+bid to Fair Market Value by taking 
+$GET/r 
+where
+r
+is that player's share. 
+And it's the Fair Market Values you compare to see who won.
+</p>
+
+<p>
+Equivalently (the math checks out!) you can just see if 
+one person will pay more than the other needs to get paid.
+</p>
+
+<p>
+So if Danny (r=35%) bids {pay $104, get $56} and Bee (r=65%) bids {pay $63, get $117} 
+then the implied Fair Market Values are 
+$56/.35 = $160 (Danny) and 
+$117/.65 = $180 (Bee) 
+but you can also just see that Danny's not willing to pay what Bee needs to get paid while Bee is in fact willing to pay what Danny needs to get paid.
+</p>
+
+<h3>Special Case: 50/50 Decisions</h3> 
+
+<p>
+Notice that for r=.5, $PAY and $GET are equal 
+so it doesn't matter which you think in terms of.
+And this app is superfluous in that case.
+Each person can just pick the amount they'd pay or need to get paid (again, that's the same number) and the person with the higher number wins and pays the loser the loser's bid.
+</p>
+<p>
+Note that the Fair Market Value is twice your bid.
+</p>
+
+<h3>Special Case: Bargling</h3> 
+
+<p>
+The r=1 case we call bargling.
+It's like burgling but where I take a thing that's 100% yours if and only if I pay you an amount that makes you happy to part with it.
+In the running example here, that's Bee ceding none of the decision.
+If she wants to be paid at least $200, she'd bid {$0, $200} 
+(no chance of her having to pay) 
+and if Danny wanted to pay up to $300 he'd bid {$300, $0} 
+(no chance of him getting paid). 
+So everything works nicely. 
+Trying to think in terms of getting paid when you own none of the decision 
+doesn't make sense and the formula yields division by zero, or, if you like, 
+says you have to bid {$infinity, $1} if you want to get paid $1. 
+Which is guaranteed irrelevant because bidding infinity means guaranteed winning which means you'll pay whatever the other person bid.
+</p>
+
+<p>
+Or, out of pure mathematical curiosity, suppose you, with 100% of the decision, bid 
+{$0, $infinity} i.e. "hell no, not for sale never-ever no matter what" 
+and I, with 0% of the decision, bid 
+{$infinity, $1} i.e., "I will pay infinity dollars for your thing or require $1 for <i>not</i> selling it to me".
+That's both of us saying the fair market value is infinity.
+So we tie and ... actually, y'know what?
+Just say that only real numbers are allowed, no infinities, and everything always works perfectly!
+Even if people bid silly amounts like a googolplexplexplex-with-a-googolplex-plexes.
+</p>
+  
+</details>
+
+</body>
+</html>
+
+<!-- ----------------------------------------------------------------------- -->
