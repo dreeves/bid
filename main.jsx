@@ -21,7 +21,14 @@ function ymd() {
 
 // Eval but just return null if syntax error. 
 // Obviously don't use serverside with user-supplied input.
+// This also gets rid of leading zeros so things like "010" don't get treated as
+// octal and evaluated as 8 instead of decimal 10 like any sane person intends.
 function laxeval(s) {
+  if (s.includes('z')) return null           // z is our sentinel
+  s = s.replace(/\b0+\b/g, 'z')              // replace bare zeros with sentinel 
+       .replace(/[1-9\.]0+/g, m => m.replace(/0/g, 'z'))  // save these too
+       .replace(/0/g, '')                    // throw away the rest of the zeros
+       .replace(/z/g, '0')                   // turn sentinels back to zeros
   try { 
     const x = eval(s)
     return typeof x === 'undefined' ? null : x
