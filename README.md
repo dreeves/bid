@@ -1,5 +1,7 @@
 Currently just a tool to facilitate arbitrary-share 2-person decision auctions (aka odd yootling).
 
+Hosted at [bid.yootl.es](https://bid.yootl.es).
+
 Idea: port kibotzer.com/bidder to this?
 
 ## Spec for making this multi-user-aware
