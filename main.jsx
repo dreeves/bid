@@ -2,7 +2,6 @@
  *                             CONSTANTS & GLOBALS                            *
  ******************************************************************************/
 
-const GRAY = "#999999"
 
 /******************************************************************************
  *                             REACT-IVE WEBSITE                              *
@@ -105,71 +104,71 @@ class Bid extends React.Component {
   }
   
   render() { return ( <div>
-    <div className="control-group">
-      <label className="control-label" for="pie">
-        Fraction of the thing/decision that's yours:
-      </label>
-      <div className="controls">
-        <input id="pie" className="form-control" type="text" autofocus
-               placeholder="a number from 0 to 1"
-               onChange={this.dPie}/> &nbsp;
-        <font color={GRAY}>{`${showfrac(1-this.state.pie)}/` +
-                            `${showfrac(this.state.pie)} them/you`}</font>
+    <section className="card">
+      <div className="field">
+        <label htmlFor="pie">
+          Fraction of the thing/decision that's yours:
+        </label>
+        <div className="row">
+          <input id="pie" type="text" autoFocus
+                 placeholder="a number from 0 to 1"
+                 onChange={this.dPie}/>
+          <span className="hint">{`${showfrac(1-this.state.pie)}/` +
+                                  `${showfrac(this.state.pie)} them/you`}</span>
+        </div>
       </div>
-      <br></br><hr></hr><br></br>
-      <b>Your Bid:</b> {/* */}
-        <font color={GRAY}>(any of these imply the other two)</font>
-      <br></br>
-      <br></br>
-      <label className="control-label" for="fmv">
-        Fair Market Value (FMV):
-      </label>
-      <div className="controls">
-        <input id="fmv" className="form-control" type="text"
-               placeholder="dollar value" 
+    </section>
+    <section className="card">
+      <div className="cardhead">
+        <b>Your Bid:</b> {/* */}
+        <span className="hint">(any of these imply the other two)</span>
+      </div>
+      <div className="field">
+        <label htmlFor="fmv">
+          Fair Market Value (FMV):
+        </label>
+        <input id="fmv" type="text"
+               placeholder="dollar value"
                onChange={this.dFmv}/>
       </div>
-      <br></br>
-      <label className="control-label" for="pay">
-        Most you pay if you win:
-      </label>
-      <div className="controls">
-        <input id="pay" className="form-control" type="text"
-               placeholder="dollar value" 
+      <div className="field">
+        <label htmlFor="pay">
+          Most you pay if you win:
+        </label>
+        <input id="pay" type="text"
+               placeholder="dollar value"
                onChange={this.dPay}/>
       </div>
-      <br></br>
-      <label className="control-label" for="get">
-        What you get paid if you lose:
-      </label>
-      <div className="controls">
-        <input id="get" className="form-control" type="text"
-               placeholder="dollar value" 
+      <div className="field">
+        <label htmlFor="get">
+          What you get paid if you lose:
+        </label>
+        <input id="get" type="text"
+               placeholder="dollar value"
                onChange={this.dGet}/>
       </div>
-    </div>
-    <div>
-      <br></br><hr></hr><br></br>
-      <b>If your FMV of ${$how(this.state.fmv)} is higher:</b>
-      <br></br>
-      <br></br>
-      You'll pay up to 
-      ${$how(this.state.pay)} {/* */}
-      (for the {showfrac(1-this.state.pie)}% that's not yours).
-      <br></br>
-      <br></br>
-      <br></br>
-      <b>If <i>their</i> FMV is higher:</b>
-      <br></br>
-      <br></br>
-      You'll get paid 
-      ${$how(this.state.get)} {/* */}
-      (for the {showfrac(this.state.pie)}% that's yours).
-      <br></br>
-      <pre>
-        iou[{ymd()}, {$how(this.state.get)}, them, you, "decision auction"]
-      </pre>      
-    </div>
+    </section>
+    <section className="card">
+      <div className="outcome">
+        <b>If your FMV of ${$how(this.state.fmv)} is higher:</b>
+        <p>
+          You'll pay up to
+          ${$how(this.state.pay)} {/* */}
+          (for the {showfrac(1-this.state.pie)}% that's not yours).
+        </p>
+      </div>
+      <div className="outcome">
+        <b>If <i>their</i> FMV is higher:</b>
+        <p>
+          You'll get paid
+          ${$how(this.state.get)} {/* */}
+          (for the {showfrac(this.state.pie)}% that's yours).
+        </p>
+        <pre>
+          iou[{ymd()}, {$how(this.state.get)}, them, you, "decision auction"]
+        </pre>
+      </div>
+    </section>
   </div> ) }
 }
 

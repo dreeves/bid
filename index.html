@@ -27,6 +27,7 @@
 "image": "https://bid.yootl.es/images/homobees-cropped.png" }
 </script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
 <link rel="stylesheet" href="style.css">
 <script crossorigin 
 src="https://unpkg.com/react@17/umd/react.production.min.js"></script>
@@ -37,18 +38,16 @@ src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
 <!-- https://unpkg.com/@babel/standalone/babel.min.js -->
 </head>
 
+<body>
+<main>
+
 <h1>Decision Auction</h1>
 
 <div id="root">Loading...</div>
 
-<script type="text/babel" data-presets="react, es2015, stage-2" 
-        src="main.jsx"></script>
-
-<br>&nbsp;<br>
-<br>&nbsp;<br>
-
-<details>
-<summary style="cursor: pointer"><i>what the flargity fork?</i></summary>
+<details class="explainer card">
+<summary><i>what the flargity fork?</i></summary>
+<div class="prose">
 
 <h3>Motivating Case Study</h3>
 
@@ -179,13 +178,19 @@ Even if people bid silly amounts like a googolplexplexplex-with-a-googolplex-ple
 <li>Dishes mean-pay</li>
 <li>Pumpkin patching</li>
 </ol>
+</div>
 </details>
 
-<span style="float:right; font-size:0.55rem; color:#999;">
-[v2025.10.31-a]
-</span>
+<footer>
+<a href="https://github.com/dreeves/bid">github.com/dreeves/bid</a>
+<span class="sep">·</span>
+<span class="version">v2026.07.16-a</span>
+</footer>
 
-      
+</main>
+
+<script type="text/babel" data-presets="react, es2015, stage-2"
+        src="main.jsx"></script>
 </body>
 </html>
 

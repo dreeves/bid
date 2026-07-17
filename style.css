@@ -1,89 +1,179 @@
-.implies:before {
-  content: '⇒ ';
-  margin-left: -50px;
-  display: block;
-  height: 1px;
-}
-.bid .implies { font-size: 3em; }
-.bid { margin-left: 50px; }
+/* One centered mono column of cards, in the tauction mold. The green
+   (this page was #bcf5bc wall to wall for years) stays on as the paper
+   the cards sit on. */
 
-#root { min-height: 13.64em; }
+:root {
+  --bg: #bcf5bc;
+  --card: #ffffff;
+  --fg: #1e2f1e;
+  --muted: #5c7a5c;
+  --border: #9ed69e;
+  --accent: #1d6b43;
+  --accent-soft: #e6f4ec;
+  --grid: rgba(30, 47, 30, 0.1);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0e180e;
+    --card: #172317;
+    --fg: #dcecdc;
+    --muted: #94ad94;
+    --border: #2f472f;
+    --accent: #7fd6a4;
+    --accent-soft: #1b3323;
+    --grid: rgba(220, 236, 220, 0.05);
+  }
+}
+
+* { box-sizing: border-box; }
 
 body {
-  font-family: helvetica, arial, sans-serif;
-  margin: 25px;
-  background-color: #bcf5bc;
+  margin: 0;
+  background-color: var(--bg);
+  /* graph-paper dot grid */
+  background-image: radial-gradient(var(--grid) 1px, transparent 1px);
+  background-size: 22px 22px;
+  color: var(--fg);
+  font: 16px/1.5 ui-monospace, "SF Mono", Menlo, "Cascadia Code", Consolas,
+        monospace;
+  display: flex;
+  justify-content: center;
+  min-height: 100vh;
 }
 
-input { 
-  padding: 5px;
-  border: 1px solid lightgrey;
+main {
+  width: 100%;
+  max-width: 30rem;
+  padding: 1.25rem 0.9rem 3rem;
+}
+
+h1 {
+  margin: 0.4rem 0 1.1rem;
+  font-size: 1.35rem;
+  letter-spacing: 0.01em;
+}
+
+/* React needs a beat to render the calculator into #root; reserving the
+   height (measured: 662px at full column width) keeps the explainer and
+   footer from jumping down the page */
+#root { min-height: 41.4rem; }
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
   border-radius: 3px;
-  max-width: 287px;
-  font-size: 16px;
-  /* width: calc(100% - 148px); */
+  padding: 1rem;
+  margin-bottom: 0.9rem;
 }
 
-label {
-  font-size: 14px;
+/* ---------------------------- the calculator --------------------------- */
+
+.field { margin-bottom: 0.9rem; }
+
+.field:last-child { margin-bottom: 0; }
+
+.field label {
+  display: block;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--muted);
+  margin-bottom: 0.25rem;
 }
 
-button,
-html input[type="button"],
-input[type="reset"],
-input[type="submit"] {
-  -webkit-appearance: button;
-  cursor: pointer;
+input[type="text"] {
+  font: inherit;
+  color: inherit;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 0.5rem 0.6rem;
+  width: 100%;
 }
 
-.pure-button {
-  font-family: inherit;
-  font-size: 100%;
-  padding: 0.5em 1em;
-  color: black;
-  border: 1px solid gray;
-  border-radius: 5px;
-  background-color: green;
-  text-decoration: none;
-}
-.pure-button-hover,
-.pure-button:hover,
-.pure-button:focus {
-  filter: alpha(opacity=90);
-  background-image: -webkit-linear-gradient(transparent, rgba(0,0,0, 0.05) 40%,
-                                                         rgba(0,0,0, 0.10));
-  background-image:         linear-gradient(transparent, rgba(0,0,0, 0.05) 40%, 
-                                                         rgba(0,0,0, 0.10));
+input:focus { outline: 2px solid var(--accent); outline-offset: -1px; }
+
+input::placeholder { color: var(--muted); opacity: 0.8; }
+
+/* The share field and its them/you readout share a line. The wrap plus
+   the input's min-width (sized to its placeholder) drop the readout to
+   its own line on very narrow phones rather than clip the placeholder. */
+.row { display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; }
+
+.row input { flex: 1; min-width: 13.5rem; }  /* = the placeholder's width */
+
+.row .hint { flex: none; }
+
+.hint { font-size: 0.78rem; font-weight: 400; color: var(--muted); }
+
+.cardhead { font-size: 0.95rem; margin-bottom: 0.9rem; }
+
+/* the two ways the auction can go, one green bar apiece */
+.outcome {
+  border-left: 3px solid var(--accent);
+  padding-left: 0.8rem;
+  font-size: 0.9rem;
 }
 
+.outcome + .outcome { margin-top: 1.1rem; }
+
+.outcome b { display: block; }
+
+.outcome p { margin: 0.4rem 0 0; }
+
+.outcome pre {
+  margin: 0.6rem 0 0;
+  padding: 0.5rem 0.65rem;
+  font-size: 0.78rem;
+  background: var(--accent-soft);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  overflow-x: auto;  /* the iou line outgrows narrow phones */
+}
+
+/* ----------------------------- the explainer --------------------------- */
+
+summary { cursor: pointer; font-size: 0.9rem; color: var(--muted); }
+
+summary:hover { color: var(--accent); }
+
+summary::marker { color: var(--muted); }
+
+.explainer[open] summary { margin-bottom: 0.8rem; }
+
+/* dreev's prose gets prose typography, not mono */
+.prose {
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-size: 0.92rem;
+  line-height: 1.6;
+}
+
+.prose h3 { font-size: 1rem; margin: 1.4rem 0 0.5rem; }
+
+.prose h3:first-child { margin-top: 0; }
+
+.prose a { color: var(--accent); }
+
+.prose li { margin-bottom: 0.25rem; }
+
+/* ------------------------------ the footer ----------------------------- */
+
+/* whisper-quiet, straight from tauction: dimmed via color alpha, no
+   resting underline; hovering the link wakes it up */
 footer {
-  margin-top: 50px;
-  padding-top: 25px;
-  border-top: 1px solid lightgrey;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 1.6rem;
+  font-size: 0.7rem;
+  color: color-mix(in srgb, var(--muted) 75%, transparent);
 }
 
-footer > a {
-  color: #BBBBBB;
-}
+footer a { color: inherit; text-decoration: none; }
 
-table {
-  border-collapse: collapse;
-}
+footer a:hover { color: var(--accent); text-decoration: underline; }
 
-th, td, tr {
-  padding-right: 40px;
-  padding-left: 10px;
-  text-align: left;
-  border-bottom: 1px solid #ffea51;
-}
+footer .sep { opacity: 0.5; }
 
-.topics tr { line-height: 14px; }
-
-tr.container {height:0px;}
-
-tr:hover { background-color: #ffea51 }
-
-textarea { 
-  font-family: monospace; 
-  font-size: 14px;
-}
+footer .version { letter-spacing: 0.04em; opacity: 0.75; }
